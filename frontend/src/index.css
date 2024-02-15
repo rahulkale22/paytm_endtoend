@@ -1,0 +1,4 @@
+{import('tailwindcss').Config}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
