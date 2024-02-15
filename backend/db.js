@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 mongoose.connect("mongodb+srv://kale42701:lfOmf97q2wIPe8M1@cluster0.mgggyf6.mongodb.net/paytm");
 const userSchema = mongoose.Schema({
@@ -33,7 +33,7 @@ const userSchema = mongoose.Schema({
 
 const accountSchema = new mongoose.Schema({
     userId: {
-        type: mongoose.Schema.Types.ObjectId, // Reference to User model
+        type: mongoose.Schema.Types.ObjectId, // givin Reference to User model
         ref: 'User',
         required: true
     },

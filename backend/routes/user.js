@@ -1,17 +1,19 @@
 const express = require("express");
-const zod = require("zod");
 const router = express.Router();
-const { User } = require("../db");
+const zod = require("zod");
+
+const { User, Account } = require("../db");
 const jwt = require("jsonwebtoken");
-const { JWT_SECRET} = require("../config")
+const { secretKey} = require("../config")
+//const secretKey = 'rahul_secret';
 const  { authMiddleware } = require("../middleware");
 
 
 const signupBody = zod.object({
-    username : zod.String().email(),
-    password : zod.String(),
-    firstName : zod.String(),
-    lastName : zod.String(),
+    username : zod.string().email(),
+    password : zod.string(),
+    firstName : zod.string(),
+    lastName : zod.string(),
 })
 //for zod schema
 
@@ -34,7 +36,7 @@ router.post("/signup", async (req, res) => {
     }
  // creating user in db
     const user = await User.create({
-        username : req.body.user,
+        username : req.body.username,
         password : req.body.password,
         firstName : req.body.firstName,
         lastName : req.body.lastName,
@@ -42,9 +44,14 @@ router.post("/signup", async (req, res) => {
 
     const userId = user._id;
 
+    await Account.create({
+        userId,
+        balance: 1 + Math.random() * 10000
+    })
+
     const token = jwt.sign({
         userId
-    },JWT_SECRET);
+    }, secretKey);
 
     res.json({
         message : "User created successfully",
@@ -55,8 +62,8 @@ router.post("/signup", async (req, res) => {
 
 ///signin
 const signinBody = zod.object({
-    username : zod.String().email(),
-    password : zod.String(),
+    username : zod.string().email(),
+    password : zod.string(),
 })
 
 router.post("/signin", async (req, res) => {
@@ -68,14 +75,14 @@ router.post("/signin", async (req, res) => {
     }
 
     const user = await User.findOne({
-        username : req.body.username,
+        username : req.body.user,
         password : req.body.password,
     });
 
     if(user){
         const token = jwt.sign({
             userId : user._id
-        },JWT_SECRET);
+        },secretKey);
 
         res.json({
             token: token
