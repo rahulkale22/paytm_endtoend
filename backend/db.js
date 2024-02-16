@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 
 mongoose.connect("mongodb+srv://kale42701:lfOmf97q2wIPe8M1@cluster0.mgggyf6.mongodb.net/paytm");
-const userSchema = mongoose.Schema({
+// Create a Schema for Users
+const userSchema = new mongoose.Schema({
     username: {
         type: String,
         required: true,
@@ -28,12 +29,11 @@ const userSchema = mongoose.Schema({
         trim: true,
         maxLength: 50
     }
-
 });
 
 const accountSchema = new mongoose.Schema({
     userId: {
-        type: mongoose.Schema.Types.ObjectId, // givin Reference to User model
+        type: mongoose.Schema.Types.ObjectId, // Reference to User model
         ref: 'User',
         required: true
     },
@@ -44,9 +44,9 @@ const accountSchema = new mongoose.Schema({
 });
 
 const Account = mongoose.model('Account', accountSchema);
-const User = mongoose.model("User",userSchema);
+const User = mongoose.model('User', userSchema);
 
 module.exports = {
-    User,
-	Account
-}
+	User,
+    Account
+};

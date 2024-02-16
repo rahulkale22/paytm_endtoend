@@ -1,4 +1,4 @@
-import './index.css' 
+import './index.css';
 import {
   BrowserRouter,
   Route,
@@ -9,16 +9,19 @@ import { Signin } from "./pages/Signin";
 import { Dashboard } from "./pages/Dashboard";
 import { SendMoney } from "./pages/SendMoney";
 
+import toast, { Toaster } from "react-hot-toast";
+
 function App() {
 
   return (
     <>
+    <Toaster />
         <BrowserRouter>
         <Routes>
-          <Route path="/signup" element={<Signup />}/>
-          <Route path="/signin" element={<Signin />}/>
+          <Route path="/signup" element={<Signup toast={toast} />}/>
+          <Route path="/signin" element={<Signin toast={toast}/>}/>
           <Route path="/dashboard" element={<Dashboard />}/>
-          <Route path="/send" element={<SendMoney />}/>
+          <Route path="/send" element={<SendMoney toast={toast}/>}/>
         </Routes>
         </BrowserRouter>
     </>

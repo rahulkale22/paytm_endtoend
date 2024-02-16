@@ -1,4 +1,6 @@
-// const JWT_SECRET = "rahulsecret"
-// module.exports = JWT_SECRET 
-const secretKey = 'rahul_secret';
-module.exports = secretKey ; 
+//backend/config.js
+module.exports = {
+	JWT_SECRET: "rahulsecret"
+}
+// const secretKey = 'rahulsecret';
+// module.exports = secretKey ; 

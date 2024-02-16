@@ -1,28 +1,29 @@
 // backend/routes/account.js
 const express = require('express');
 const { authMiddleware } = require('../middleware');
-const { secretKey} = require("../config")
 const { Account } = require('../db');
-const { mongoose } = require('mongoose');
+const { default: mongoose } = require('mongoose');
 
 const router = express.Router();
 
+// An endpoint for user to get their balance.
 router.get("/balance", authMiddleware, async (req, res) => {
     const account = await Account.findOne({
         userId: req.userId
     });
-//    console.log("before balance")
-
 
     res.json({
         balance: account.balance
     })
 });
 
+//An endpoint for user to transfer money to another account
 router.post("/transfer", authMiddleware, async (req, res) => {
-    const session = await mongoose.startSession();
+    const session = await mongoose.startSession();  //This ensures that these operations either all succeed together or fail together.
 
-    session.startTransaction();
+
+    session.startTransaction(); // This ensures that the operations within the transaction are either fully completed
+    //or fully rolled back, maintaining data integrity.
     const { amount, to } = req.body;
 
     // Fetch the accounts within the transaction
